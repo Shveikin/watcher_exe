@@ -1,0 +1,10 @@
+{
+    "from": "C:/Users/X/Desktop/addon/addon/",
+    "to": "C:/Users/X/Desktop/addon/ready/addon.py",
+    "list": [
+        "moment.py",
+        "coll.py",
+        "__init__.py",
+        "next.py"
+    ]
+}
