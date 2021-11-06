@@ -4,13 +4,24 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import os
 import json
+import shutil
 
 dir = os.curdir
 jsonConfigName = os.path.abspath(dir + '/config.json')
 
+
+
+
+
 def file_get_contents(filename):
-    with open(filename) as f:
+    with open(filename, encoding="utf8") as f:
         return f.read()
+
+
+
+
+
+
 
 def run(_from, _to, filelist):
     if not os.path.isdir(_from):
@@ -31,10 +42,12 @@ def run(_from, _to, filelist):
                 read_file_name = os.path.abspath(current_path + '/' + file_name)
                 files[file_name] = read_file_name
 
-    try:
+    # try:
+    if True:
         print('open', _to)
-        with open(_to, "w+") as script:
+        with open(_to, "w+", encoding="utf8") as script:
             for fname in filelist:
+
                 script.write(f'# {fname}\n')
 
                 code = file_get_contents(files[fname])
@@ -42,6 +55,7 @@ def run(_from, _to, filelist):
 
 
                 for codeLine in code_list:
+                    print("readCODE")
                     if (codeLine[0:6]=='_start'):
                         script.write( '#'+ '\n#'.join(codeLine[6:].split('\n')) + '\n')
                     elif (codeLine[0:4]=='_end'):
@@ -50,8 +64,8 @@ def run(_from, _to, filelist):
                         script.write(codeLine + '\n')
 
             print('write', _to)
-    except ValueError:
-        print(ValueError)
+    # except ValueError:
+    #     print(ValueError)
 
 
 
@@ -76,15 +90,13 @@ def getConfig():
         jsonConfigData['from'] = os.path.abspath(jsonConfigData['from'])
         jsonConfigData['to'] = os.path.abspath(jsonConfigData['to'])
 
+        if ('copy' in jsonConfigData):
+            jsonConfigData['copy'] = os.path.abspath(jsonConfigData['copy'])
+
         return jsonConfigData
     else:
         print('config.json - ненайден')
         exit()
-
-
-
-
-
 
 
 
@@ -94,6 +106,8 @@ def changes(event):
 
     data = getConfig()
     run(data['from'], data['to'], data['list'])
+    if ('copy' in data):
+        shutil.copy2(data['to'], data['copy'])
     return data
 
 
