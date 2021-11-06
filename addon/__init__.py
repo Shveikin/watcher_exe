@@ -1,5 +1,7 @@
+#ignore_start
+import bpy
+#ignore_end
 
 
-#Так что тут не так?
-
-
+def registration():
+	pass

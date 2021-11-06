@@ -1,7 +1,7 @@
+from posixpath import split
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import combine
 import os
 import json
 
@@ -13,9 +13,17 @@ def file_get_contents(filename):
         return f.read()
 
 def run(_from, _to, filelist):
+    if not os.path.isdir(_from):
+        print('Директория отсутствует ' + _from)
+        exit()
+
+    if not os.path.isdir(os.path.dirname(_to)):
+        print('Некорректный путь ' + _to)
+        exit()
+
     files = {}
 
-    tree = os.walk(os.path.abspath(_from))
+    tree = os.walk(_from)
     for element in tree:
         current_path = element[0]
         for file_name in element[2]:
@@ -23,10 +31,33 @@ def run(_from, _to, filelist):
                 read_file_name = os.path.abspath(current_path + '/' + file_name)
                 files[file_name] = read_file_name
 
-    with open(_to, "w") as script:
-        for fname in filelist:
-            script.write(f'# {fname}\n' + file_get_contents(files[fname]) + '\n')
-            print('write', fname)
+    try:
+        print('open', _to)
+        with open(_to, "w+") as script:
+            for fname in filelist:
+                script.write(f'# {fname}\n')
+
+                code = file_get_contents(files[fname])
+                code_list = code.split('#ignore')
+
+
+                for codeLine in code_list:
+                    if (codeLine[0:6]=='_start'):
+                        script.write( '#'+ '\n#'.join(codeLine[6:].split('\n')) + '\n')
+                    elif (codeLine[0:4]=='_end'):
+                        script.write(codeLine[4:] + '\n')
+                    else:
+                        script.write(codeLine + '\n')
+
+            print('write', _to)
+    except ValueError:
+        print(ValueError)
+
+
+
+
+
+
 
 
 def getConfig():
@@ -40,7 +71,11 @@ def getConfig():
         if ('from' not in jsonConfigData):
             print('config.json - укажите путь к папке с файлами (from)')
             exit()
-        
+
+
+        jsonConfigData['from'] = os.path.abspath(jsonConfigData['from'])
+        jsonConfigData['to'] = os.path.abspath(jsonConfigData['to'])
+
         return jsonConfigData
     else:
         print('config.json - ненайден')
@@ -53,19 +88,21 @@ def getConfig():
 
 
 
+
 def changes(event):
-    print(event.event_type)
+    print(event)
 
     data = getConfig()
     run(data['from'], data['to'], data['list'])
+    return data
 
 
 if __name__ == "__main__":
 
-    jsonConfig = getConfig()
+    jsonConfig = changes('start')
     
     event_handler = FileSystemEventHandler()
-    event_handler.on_any_event = changes
+    event_handler.on_any_event = lambda event: changes(event.event_type)
 
 
     observer = Observer()

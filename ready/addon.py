@@ -1,13 +1,21 @@
-# moment.py
-1
-# coll.py
-Привет мир
+# addon.py
+import bpy
+
+def hello:
+	pass
+
+
+
+
+
 # __init__.py
 
+#
+#import bpy
+#
 
-#Так что тут не так?
 
 
+def registration():
+	pass
 
-# next.py
-111
