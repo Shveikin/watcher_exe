@@ -44,26 +44,28 @@ def run(_from, _to, filelist):
 
     # try:
     if True:
-        print('open', _to)
         with open(_to, "w+", encoding="utf8") as script:
+            print('write', _to, end='')
             for fname in filelist:
+                if (fname in files and os.path.isfile(files[fname])):
+                    script.write(f'# {fname}\n')
 
-                script.write(f'# {fname}\n')
-
-                code = file_get_contents(files[fname])
-                code_list = code.split('#ignore')
+                    code = file_get_contents(files[fname])
+                    code_list = code.split('#ignore')
 
 
-                for codeLine in code_list:
-                    print("readCODE")
-                    if (codeLine[0:6]=='_start'):
-                        script.write( '#'+ '\n#'.join(codeLine[6:].split('\n')) + '\n')
-                    elif (codeLine[0:4]=='_end'):
-                        script.write(codeLine[4:] + '\n')
-                    else:
-                        script.write(codeLine + '\n')
+                    for codeLine in code_list:
+                        if (codeLine[0:6]=='_start'):
+                            script.write( '#'+ '\n#'.join(codeLine[6:].split('\n')) + '\n')
+                        elif (codeLine[0:4]=='_end'):
+                            script.write(codeLine[4:] + '\n')
+                        else:
+                            script.write(codeLine + '\n')
+                else:
+                    print('файл отсутствует', fname)
+                    script.write(f'#### файл отсутствует - {fname}\n')
 
-            print('write', _to)
+            print(' - ok')
     # except ValueError:
     #     print(ValueError)
 
@@ -102,12 +104,21 @@ def getConfig():
 
 
 def changes(event):
-    print(event)
+    print(f"\n__{event}________________________")
 
     data = getConfig()
-    run(data['from'], data['to'], data['list'])
+
     if ('copy' in data):
+        with open(data['copy'], "w+", encoding="utf8") as copy:
+            copy.write('Обработка...')
+
+    run(data['from'], data['to'], data['list'])
+
+    if ('copy' in data):
+        print('copy', data['copy'], end='')
         shutil.copy2(data['to'], data['copy'])
+        print(' - ok')
+
     return data
 
 
