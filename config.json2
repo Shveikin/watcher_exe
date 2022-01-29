@@ -1,0 +1,22 @@
+{
+    "from": "C:/Users/X/Desktop/Controller__addon/addon",
+    "copy": "C:/Users/X/Desktop/Controller__addon/build/myNewAddonForBlender.py",
+    "to": "C:/Users/X/AppData/Roaming/Blender Foundation/Blender/3.0/scripts/addons/myNewAddonForBlender.py",
+    "list": [
+        "init.py",
+        
+        "GroupSettingDialog.py",
+        "AddControllerMenu.py",
+        "ControllerLink.py",
+        "ControllerLinkList.py",
+        "UI_UL_flare2.py",
+        "GroupColl.py",
+        "ADD_OP_Add_to_my_list2.py",
+        "INDEX_PT_list_panel.py",
+
+
+        "class_list.py",
+        
+        "registration.py"
+    ]
+}

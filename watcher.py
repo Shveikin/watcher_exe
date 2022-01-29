@@ -38,32 +38,36 @@ def run(_from, _to, filelist):
     for element in tree:
         current_path = element[0]
         for file_name in element[2]:
-            if (file_name.split('.')[-1]=='py'):
+            forrmat = file_name.split('.')[-1]
+            if (forrmat=='py' or forrmat=='js'):
                 read_file_name = os.path.abspath(current_path + '/' + file_name)
                 files[file_name] = read_file_name
+                print(file_name, read_file_name)
 
     # try:
     if True:
+        forrmat_write = _to.split('.')[-1]
+        comment = '#' if forrmat_write=='py' else '//'
         with open(_to, "w+", encoding="utf8") as script:
             print('write', _to, end='')
             for fname in filelist:
                 if (fname in files and os.path.isfile(files[fname])):
-                    script.write(f'# {fname}\n')
+                    script.write(f'{comment} {fname}\n')
 
                     code = file_get_contents(files[fname])
-                    code_list = code.split('#ignore')
+                    code_list = code.split(f'{comment}ignore')
 
 
                     for codeLine in code_list:
                         if (codeLine[0:6]=='_start'):
-                            script.write( '#'+ '\n#'.join(codeLine[6:].split('\n')) + '\n')
+                            script.write( comment+ f'\n{comment}'.join(codeLine[6:].split('\n')) + '\n')
                         elif (codeLine[0:4]=='_end'):
                             script.write(codeLine[4:] + '\n')
                         else:
                             script.write(codeLine + '\n')
                 else:
-                    print('файл отсутствует', fname)
-                    script.write(f'#### файл отсутствует - {fname}\n')
+                    print('\nфайл отсутствует', fname)
+                    script.write(f'{comment}{comment}{comment} файл отсутствует - {fname}\n')
 
             print(' - ok')
     # except ValueError:
