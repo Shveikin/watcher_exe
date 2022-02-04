@@ -1,10 +1,12 @@
 {
-    "from": "C:/Users/X/Desktop/App/widgets-php/examples/js/widgets-js/src/",
-    "to": "C:/Users/X/Desktop/App/widgets-php/examples/js/widgets-js/build/widgets.js",
+    "from": "C:/Apps/watcher_exe/addon",
+    "to": "C:/Users/E/Documents/Blender/python/CarDirectorStudio/build/vdd.py",
+    "copy": [
+        "C:/Users/E/Desktop/1/vdd.py",
+        "C:/Users/E/Desktop/2/vdd222.py"
+    ],
     "list": [
-        "convertor.js",
-        "widgets.js",
-        "childController.js",
-        "widgetState.js"
+        "addon.py",
+        "__init__.py"
     ]
 }

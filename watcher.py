@@ -97,7 +97,10 @@ def getConfig():
         jsonConfigData['to'] = os.path.abspath(jsonConfigData['to'])
 
         if ('copy' in jsonConfigData):
-            jsonConfigData['copy'] = os.path.abspath(jsonConfigData['copy'])
+            copy = jsonConfigData['copy'] if type(jsonConfigData['copy']) == list else [jsonConfigData['copy']]
+            jsonConfigData['copy'] = []
+            for i in copy:
+                jsonConfigData['copy'].append(os.path.abspath(i))
 
         return jsonConfigData
     else:
@@ -113,15 +116,17 @@ def changes(event):
     data = getConfig()
 
     if ('copy' in data):
-        with open(data['copy'], "w+", encoding="utf8") as copy:
-            copy.write('Обработка...')
+        for copyPath in data['copy']:
+            with open(copyPath, "w+", encoding="utf8") as copy:
+                copy.write('Обработка...')
 
     run(data['from'], data['to'], data['list'])
 
     if ('copy' in data):
-        print('copy', data['copy'], end='')
-        shutil.copy2(data['to'], data['copy'])
-        print(' - ok')
+        for copyPath in data['copy']:
+            print('copy', copyPath, end='')
+            shutil.copy2(data['to'], copyPath)
+            print(' - ok')
 
     return data
 
