@@ -1,4 +1,5 @@
 **.exe
+**.zip
 /build
 /dist
 /__pycache__

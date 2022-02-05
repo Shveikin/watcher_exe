@@ -1,0 +1,8 @@
+{
+    "from": "dir from...",
+    "to": "file to ...",
+    "copy": ["copy file(s)"],
+    "list": [
+        "file name list without path"
+    ]
+}
