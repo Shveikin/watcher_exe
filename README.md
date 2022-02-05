@@ -1,4 +1,5 @@
 # watcher_exe
+config.json
 ```
 {
     "from": "dir from...",
@@ -7,6 +8,13 @@
     "list": [
         "file name list without path"
     ]
+}
+```
+
+use other config
+```
+{
+    "conf": "add from other config.json"
 }
 ```
 
