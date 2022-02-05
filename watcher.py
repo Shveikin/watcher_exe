@@ -84,6 +84,15 @@ def getConfig():
     global jsonConfigName
     if os.path.isfile(jsonConfigName):
         jsonConfigData = json.loads(file_get_contents(jsonConfigName))
+        if ('conf' in jsonConfigData):
+            jsonConfigName = jsonConfigData['conf']
+            print('Загружаю конфиг - ', jsonConfigName)
+            if os.path.isfile(jsonConfigName):
+                jsonConfigData = json.loads(file_get_contents(jsonConfigName))
+            else:
+                print('Файл не найден!')
+                exit()
+
         if ('to' not in jsonConfigData):
             print('config.json - укажите путь к конечному файлу (to)')
             exit()

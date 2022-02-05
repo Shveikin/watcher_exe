@@ -1,12 +1,3 @@
 {
-    "from": "C:/Apps/watcher_exe/addon",
-    "to": "C:/Users/E/Documents/Blender/python/CarDirectorStudio/build/vdd.py",
-    "copy": [
-        "C:/Users/E/Desktop/1/vdd.py",
-        "C:/Users/E/Desktop/2/vdd222.py"
-    ],
-    "list": [
-        "addon.py",
-        "__init__.py"
-    ]
+    "conf": "C:/watcher_configs/test.json"
 }
