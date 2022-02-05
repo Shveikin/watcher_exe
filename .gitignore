@@ -4,3 +4,7 @@
 /dist
 /__pycache__
 /.vscode
+
+/addon
+/ready
+/watcher.spec
