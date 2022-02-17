@@ -23,7 +23,7 @@ run cmd
 {
     "run_script": "xcopy src copy /y"
 }
-
+```
 
 
 ignore code (python)
