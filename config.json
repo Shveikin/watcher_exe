@@ -1,3 +1,4 @@
 {
-    "conf": "C:/watcher_configs/test.json"
+    "conf": "C:/watcher_configs/test.json",
+    "run_script": "xcopy src copy /y"
 }

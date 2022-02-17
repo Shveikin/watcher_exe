@@ -148,6 +148,12 @@ def changes(event):
             shutil.copy2(data['to'], copyPath)
             print(' - ok')
 
+    if ('run_script' in data):
+        script = data['run_script']
+        print(f'run script >> {script}\n-------------')
+        result = os.system(data['run_script'])
+        print(f'\n-------------\n << [{result}]')
+
     return data
 
 
